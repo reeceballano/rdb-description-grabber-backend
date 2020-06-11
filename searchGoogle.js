@@ -4,7 +4,14 @@ const userAgent = require('user-agents');
 
 const searchGoogle = async (searchQuery, num) => {
 	try {
-		const browser 		= await puppeteer.launch({ headless: true });
+		const browser = await puppeteer.launch({
+										'args' : [
+										'--no-sandbox',
+										'--disable-setuid-sandbox'
+									],
+									headless: true
+								});
+		// .launch({ headless: true });
 		const page 			= await browser.newPage();
 		const userbrowser 	= new userAgent({ deviceCategory: 'desktop' })
 
