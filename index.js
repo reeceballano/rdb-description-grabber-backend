@@ -7,7 +7,6 @@ const cors      	= require('cors');
 app.use(express.json());
 app.use(cors());
 
-
 app.get('/search', (req, res) => {
 	const searchQuery = req.query.searchquery;
 	const num = (req.query.num.length) ? req.query.num : 10;
