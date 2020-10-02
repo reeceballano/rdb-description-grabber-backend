@@ -9,7 +9,7 @@ const searchGoogle = async (searchQuery, num) => {
 										'--no-sandbox',
 										'--disable-setuid-sandbox'
 									],
-									headless: false
+									headless: true
 								});
 		// .launch({ headless: true });
 		const page 			= await browser.newPage();
