@@ -13,15 +13,15 @@ const requestLimiter = rateLimit({
 route.get('/users', auth, userController.user_list);
 
 // GET SINGLE USER
-route.get('/users/:_id', userController.user_detail);
+route.get('/users/:_id', auth, userController.user_detail);
 
 // CREATE USER
 route.post('/users', requestLimiter, userController.user_create);
 
 // DELETE SINGLE USER
-route.delete('/users', userController.user_remove);
+route.delete('/users', auth, userController.user_remove);
 
 // UPDATE SINGLE USER
-route.post('/users/:_id', userController.user_update);
+route.post('/users/:_id', auth, userController.user_update);
 
 module.exports = route;
