@@ -4,6 +4,7 @@ const puppeteer 	= require('puppeteer');
 const searchGoogle 	= require('./searchGoogle');
 const cors      	= require('cors');
 const users         = require('./routes/user');
+const posts         = require('./routes/post');
 const login         = require('./routes/login');
 const helmet        = require('helmet');
 const mongoose      = require('mongoose');
@@ -24,6 +25,7 @@ app.use(helmet());
 
 // API
 app.use('/api', users);
+app.use('/api', posts);
 app.use('/api', login);
 
 // SEARCH
