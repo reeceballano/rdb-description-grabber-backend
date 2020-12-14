@@ -4,13 +4,14 @@ const mongoose  = require('mongoose');
 const bcrypt    = require('bcryptjs');
 const User      = require('../models/user');
 const jwt       = require('jsonwebtoken');
+const config 	= require('config');
 
 
 // CHECK TOKEN IF VALID THEN GET USER INFO
 route.get('/auth', async (req, res) => {
     const token = req.headers.token;
 
-    jwt.verify(token, 'this_is_the_secret_key', async (err, decoded) => {
+    jwt.verify(token, config.SECRET_KEY, async (err, decoded) => {
         // IF TOKEN IS INVALID
         if(err) {
             return res.status(401).json({
@@ -60,7 +61,7 @@ route.post('/auth', async (req, res) => {
         }
 
         // IF LOGIN SUCCESS | This will store in localstorage, we only need to user._id (userId) and use that to find the user in DB
-        const token = jwt.sign({ userId: user._id }, 'this_is_the_secret_key', { expiresIn: '1h'});
+        const token = jwt.sign({ userId: user._id }, config.SECRET_KEY, { expiresIn: '1h'});
 
         res.status(200).json({ 
             info: 'Success!',
