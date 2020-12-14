@@ -9,6 +9,7 @@ const login         = require('./routes/login');
 const helmet        = require('helmet');
 const mongoose      = require('mongoose');
 const slowDown      = require('express-slow-down');
+const config 		= require('config');
 
 // CONNECT TO MONGOODB
 mongoose.connect('mongodb://localhost:27017/rdb-description-grabber',
@@ -22,6 +23,10 @@ mongoose.connect('mongodb://localhost:27017/rdb-description-grabber',
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+
+app.get('/test', (req,res) => {
+	res.send(config.SECRET_KEY);
+})
 
 // API
 app.use('/api', users);

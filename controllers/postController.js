@@ -46,7 +46,6 @@ exports.post_detail = async (req, res) => {
 }
 
 exports.post_create = async (req, res) => {
-    console.log(req)
     try {
         const result = await postSchema.validateAsync(req.body);
         
