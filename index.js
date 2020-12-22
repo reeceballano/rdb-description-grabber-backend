@@ -6,6 +6,7 @@ const cors      	= require('cors');
 const users         = require('./routes/user');
 const posts         = require('./routes/post');
 const login         = require('./routes/login');
+const upload        = require('./routes/upload');
 const helmet        = require('helmet');
 const mongoose      = require('mongoose');
 const slowDown      = require('express-slow-down');
@@ -27,6 +28,7 @@ app.use(helmet());
 app.use('/api', users);
 app.use('/api', posts);
 app.use('/api', login);
+app.use('/api', upload);
 
 // SEARCH
 app.get('/search', (req, res) => {
