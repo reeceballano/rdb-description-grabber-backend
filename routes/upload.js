@@ -2,9 +2,9 @@ const express            = require('express');
 const route              = express.Router();
 const rateLimit          = require('express-rate-limit');
 const auth               = require('../middleware/auth');
-const Upload            = require('../models/upload');
-const multer            = require('multer');
-const mongoose          = require('mongoose');
+const Upload             = require('../models/upload');
+const multer             = require('multer');
+const mongoose           = require('mongoose');
 
 const requestLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
