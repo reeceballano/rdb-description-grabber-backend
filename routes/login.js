@@ -31,7 +31,7 @@ route.get('/auth', async (req, res) => {
         return res.status(200).json({
             info: 'User Info',
             user: {
-                id: user._id,
+                _id: user._id,
                 email: user.email,
                 name: user.name
             }
