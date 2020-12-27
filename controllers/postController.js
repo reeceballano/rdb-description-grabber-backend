@@ -54,7 +54,7 @@ exports.post_create = async (req, res) => {
             title: result.title,
             slug: result.slug,
             content: result.content,
-            author: '1',
+            author: result.author,
 
         });
 
