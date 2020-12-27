@@ -55,7 +55,6 @@ exports.post_create = async (req, res) => {
             slug: result.slug,
             content: result.content,
             author: result.author,
-
         });
 
         post.save( (err) => {
@@ -72,7 +71,7 @@ exports.post_create = async (req, res) => {
             })
         })
     } catch(error) {
-        res.send(error)
+        res.status(400).send(error);
     }
 }
 
