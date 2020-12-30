@@ -16,7 +16,7 @@ route.get('/posts', auth, postController.post_list);
 route.get('/posts/:_id', postController.post_detail);
 
 // CREATE POST
-route.post('/posts', requestLimiter, postController.post_create);
+route.post('/posts', auth, requestLimiter, postController.post_create);
 
 // DELETE SINGLE POST
 route.delete('/posts', auth, postController.post_remove);
