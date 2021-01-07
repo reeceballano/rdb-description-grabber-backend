@@ -21,6 +21,29 @@ exports.post_list = async (req, res) => {
     }
 }
 
+exports.post_user_posts = async (req, res) => {
+    const id = req.params.user_id;
+
+    console.log(id)
+
+    try {
+        const posts = await Post.find({ author: id }).exec();
+      
+        if(posts.length >= 1) {
+            return res.status(200).json({
+                success: true,
+                content: posts
+            })
+        }
+        
+        return res.status(400).json({
+            content: 'User has no post'
+        })
+    } catch(error) {
+        res.status(401).send(error);
+    }
+}
+
 exports.post_detail = async (req, res) => {
     try {
         const check = await findPostSchema.validateAsync(req.params);

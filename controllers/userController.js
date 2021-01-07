@@ -63,15 +63,16 @@ exports.user_create = async (req, res) => {
                     success: false,
                     content: err.errmsg
                 })
+            } else {
+                res.status(200).json({
+                    success: true,
+                    content: 'New user created'
+                })
             }
 
-            res.status(200).json({
-                success: true,
-                content: 'New user created'
-            })
         })
     } catch(error) {
-        res.send(error)
+        res.status(401).send(error)
     }
 }
 

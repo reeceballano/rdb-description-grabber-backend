@@ -12,6 +12,9 @@ const requestLimiter = rateLimit({
 // GET ALL POSTS
 route.get('/posts', auth, postController.post_list);
 
+// GET ALL USER POSTS
+route.get('/posts/:user_id/author', postController.post_user_posts);
+
 // GET SINGLE POST
 route.get('/posts/:_id', postController.post_detail);
 

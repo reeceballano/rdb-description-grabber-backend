@@ -16,7 +16,7 @@ route.get('/users', auth, userController.user_list);
 route.get('/users/:_id', auth, userController.user_detail);
 
 // CREATE USER
-route.post('/users', requestLimiter, userController.user_create);
+route.post('/users', userController.user_create);
 
 // DELETE SINGLE USER
 route.delete('/users', auth, userController.user_remove);
