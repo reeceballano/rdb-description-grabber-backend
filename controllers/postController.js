@@ -2,6 +2,8 @@ const mongoose          = require('mongoose');
 const Post              = require('../models/post');
 const bcrypt            = require('bcryptjs');
 const { postSchema, findPostSchema }    = require('../helpers/post_validation_schema');
+const jwt               = require('jsonwebtoken');
+const config 	        = require('config');
 
 exports.post_list = async (req, res) => {
     
@@ -24,24 +26,33 @@ exports.post_list = async (req, res) => {
 exports.post_user_posts = async (req, res) => {
     const id = req.params.user_id;
 
-    console.log(id)
+    const token = req.headers.token;
 
-    try {
-        const posts = await Post.find({ author: id }).exec();
-      
-        if(posts.length >= 1) {
-            return res.status(200).json({
-                success: true,
-                content: posts
-            })
+    jwt.verify(token, config.SECRET_KEY, async (err, decoded) => {
+        const userId = decoded.userId;
+
+        if(userId === id) {
+            try {
+                const posts = await Post.find({ author: id }).exec();
+              
+                if(posts.length >= 1) {
+                    return res.status(200).json({
+                        success: true,
+                        content: posts
+                    })
+                }
+                
+                return res.status(400).json({
+                    content: 'User has no post'
+                })
+            } catch(error) {
+                res.status(401).send(error);
+            }
+        } else {
+            res.status(401).send('Not authorized!');
         }
-        
-        return res.status(400).json({
-            content: 'User has no post'
-        })
-    } catch(error) {
-        res.status(401).send(error);
-    }
+    });
+
 }
 
 exports.post_detail = async (req, res) => {
