@@ -80,33 +80,46 @@ exports.post_detail = async (req, res) => {
 }
 
 exports.post_create = async (req, res) => {
-    try {
-        const result = await postSchema.validateAsync(req.body);
-        
-        const post = new Post({
-            _id: new mongoose.Types.ObjectId(),
-            title: result.title,
-            slug: result.slug,
-            content: result.content,
-            author: result.author,
-        });
+    const id = req.body.author;
 
-        post.save( (err) => {
-            if(err) {
-                return res.status(400).json({
-                    success: false,
-                    content: err.errmsg
+    const token = req.headers.token;
+
+    jwt.verify(token, config.SECRET_KEY, async (err, decoded) => {
+
+        const userId = decoded.userId;
+
+        if(userId === id) {
+            try {
+                const result = await postSchema.validateAsync(req.body);
+                
+                const post = new Post({
+                    _id: new mongoose.Types.ObjectId(),
+                    title: result.title,
+                    slug: result.slug,
+                    content: result.content,
+                    author: result.author,
+                });
+
+                post.save( (err) => {
+                    if(err) {
+                        return res.status(400).json({
+                            success: false,
+                            content: err.errmsg
+                        })
+                    }
+
+                    res.status(200).json({
+                        success: true,
+                        content: 'New post created'
+                    })
                 })
+            } catch(error) {
+                res.status(400).send(error);
             }
-
-            res.status(200).json({
-                success: true,
-                content: 'New post created'
-            })
-        })
-    } catch(error) {
-        res.status(400).send(error);
-    }
+        } else {
+            res.status(401).send('Not authorized!');
+        }
+    })
 }
 
 exports.post_remove = async (req, res) => {
