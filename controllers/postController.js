@@ -60,7 +60,7 @@ exports.post_detail = async (req, res) => {
         const check = await findPostSchema.validateAsync(req.params);
 
         if(check) {
-            const post = await User.findOne({ _id: check._id }).select('-password -role').exec();
+            const post = await Post.findOne({ _id: check._id }).exec();
 
             if(post) {
                 return await res.status(200).json({
@@ -73,7 +73,7 @@ exports.post_detail = async (req, res) => {
     } catch(error) {
         res.status(404).json({
             success: false,
-            content: 'User not found!'
+            content: 'Post not found!'
         })
     }
 
