@@ -16,7 +16,7 @@ route.get('/posts', auth, postController.post_list);
 route.get('/posts/:user_id/author', auth, postController.post_user_posts);
 
 // GET SINGLE POST
-route.get('/posts/:_id', postController.post_detail);
+route.get('/posts/:_id', auth, postController.post_detail);
 
 // CREATE POST
 route.post('/posts', auth, requestLimiter, postController.post_create);
