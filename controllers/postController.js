@@ -56,27 +56,41 @@ exports.post_user_posts = async (req, res) => {
 }
 
 exports.post_detail = async (req, res) => {
-    try {
-        const check = await findPostSchema.validateAsync(req.params);
+    const id = req.headers.author;
 
-        if(check) {
-            const post = await Post.findOne({ _id: check._id }).exec();
+    const token = req.headers.token;
 
-            if(post) {
-                return await res.status(200).json({
-                    success: true,
-                    content: post
-                });
+    console.log(id)
+
+    jwt.verify(token, config.SECRET_KEY, async (err, decoded) => {
+        const userId = decoded.userId;
+
+        if(userId === id) {
+            try {
+                const check = await findPostSchema.validateAsync(req.params);
+        
+                if(check) {
+                    const post = await Post.findOne({ _id: check._id, author: id }).exec();
+        
+                    if(post) {
+                        return await res.status(200).json({
+                            success: true,
+                            content: post
+                        });
+                    }
+                }
+        
+            } catch(error) {
+                res.status(404).json({
+                    success: false,
+                    content: 'Post not found!'
+                })
             }
+        } else {
+            res.status(401).send('Not authorized!');
         }
 
-    } catch(error) {
-        res.status(404).json({
-            success: false,
-            content: 'Post not found!'
-        })
-    }
-
+    })
 }
 
 exports.post_create = async (req, res) => {
