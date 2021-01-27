@@ -166,18 +166,35 @@ exports.post_remove = async (req, res) => {
 }
 
 exports.post_update = async (req, res) => {
-    // FIND POST
-    const _id = req.params._id;
-
-    const { name } = req.body;
-
-    const post = await Post.findOne({ _id: _id });
-
-    if(!post) {
-        return console.log('post not found!');
-    }
+    try {
+        // FIND POST
+        const postID = req.params._id;
+        const authorID = req.body.authorID;
+        const post = await Post.findOne({ _id: postID, author: authorID });
     
-    // UPDATE
-    console.log(`found post`, name, _id);
+        if(!post) {
+            return console.log('post not found!');
+        }
+        
+        // UPDATE
+        const filter = { _id: postID, author: authorID }
+        const update = { title: req.body.title, content: req.body.content }
+        
+        if(postID !== '' && req.body.content !== '' && req.body.title !== '') {
+            await Post.findOneAndUpdate(filter, update, { new: true });
+    
+            res.status(200).json({
+                success: true,
+                content: 'Post updated!'
+            })
+        } else {
+            res.status(400).send({
+                success: false,
+                content: 'Title or Content is empty!'
+            })
+        }
+    } catch(error) {
+        res.status(400).send('something is wrong!');
+    }
 
 }

@@ -25,6 +25,6 @@ route.post('/posts', auth, requestLimiter, postController.post_create);
 route.delete('/posts', auth, postController.post_remove);
 
 // UPDATE SINGLE POST
-route.post('/posts/:_id', auth, postController.post_update);
+route.post('/posts/:_id/update', auth, postController.post_update);
 
 module.exports = route;

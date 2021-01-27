@@ -16,7 +16,8 @@ mongoose.connect('mongodb://localhost:27017/rdb-description-grabber',
     {  
         useCreateIndex: true,
         useNewUrlParser: true,
-        useUnifiedTopology: true
+		useUnifiedTopology: true,
+		useFindAndModify: false
     }
 );
 
