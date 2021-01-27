@@ -9,7 +9,7 @@ const searchGoogle = async (searchQuery, num) => {
 										'--no-sandbox',
 										'--disable-setuid-sandbox'
 									],
-									headless: true
+									headless: false
 								});
 		// .launch({ headless: true });
 		const page 			= await browser.newPage();
@@ -19,14 +19,16 @@ const searchGoogle = async (searchQuery, num) => {
 		await page.goto(`https://www.google.com/search?q=${searchQuery}&num=${num}`);
 		await page.waitForSelector('#rso');
 
-		const sections = await page.$$('.rc');
+		const sections = await page.$$('.g .tF2Cxc');
 
 		let data = [];
 
 		for(let i = 0; i < sections.length; i++) {
 			const section 		= sections[i];
-			const titles 		= await section.$('.yuRUbf');
+			const titles 		= await section.$('.yuRUbf a');
 			const title 		= await titles.$eval('h3', h3 => h3.innerText);
+
+			console.log(title)
 
 			const descriptions 	= await section.$('.IsZvec');
 			const description 	= await descriptions.$eval('span', span => span.innerText);
